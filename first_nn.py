@@ -34,17 +34,19 @@ for i in range(0,steps):
 	l1 = sigmoid(np.dot(l0, w0)) #first layer 
 	l2 = sigmoid(np.dot(l1, w1)) #second layer or Yhat output 
 
-	error = Y - l2 # cost function that has to be minimized
+	l2_error = Y - l2 # cost function that has to be minimized
 
 	#printing the error at every 10,000 steps 
 	if(i%10000 == 0 ):
-		our_error = "Error" + str(np.mean(np.abs(error)))
+		our_error = "Error" + str(np.mean(np.abs(l2_error)))
 		print(our_error)
 
 #backpropogation 
-	l2_delta = error*sigmoid(l2,derive=True)
+	#taking delta of l2 layer 
+	l2_delta = l2_error*sigmoid(l2,derive=True)
+	#using this we calculate l1 layer error 
 	l1_error = l2_delta.dot(w1.T)
-
+	#the delta of l1 layer 
 	l1_delta = l1_error*sigmoid(l1,derive=True)
 
 	#update weights using gradient descent 
